@@ -1,0 +1,45 @@
+# --- Secrets & credentials ---
+*.env
+.env*
+*credentials*.json
+*credentials*.yml
+*credentials*.yaml
+cert.pem
+key.pem
+*.pem
+*.key
+tunnel-*.json          # cloudflared tunnel credential files
+cloudflared/*.json
+*.token
+
+# --- Cloudflared specific ---
+config.yml              # only if it contains real hostnames/tunnel IDs — keep a config.example.yml instead
+*.cert.pem
+
+# --- Docker ---
+docker-compose.override.yml
+.docker/
+*.log
+
+# --- Tailscale ---
+tailscale-state/
+*.tailscale
+
+# --- OS junk ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Editor/IDE ---
+.vscode/
+.idea/
+*.swp
+
+# --- Backups / dumps ---
+*.bak
+*.sql
+*.tar.gz
+*.zip
+
+# --- Local env/config that shouldn't be public ---
+configurations/**/*.local.*
