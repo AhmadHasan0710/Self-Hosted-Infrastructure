@@ -11,6 +11,7 @@ to. This includes:
 
 | Folder                              | Service     | Machine |
 |--------------------------------------|-------------|---------|
+| [`cloudflared/`](./Cloudflared)     | Cloudflared | Main    |
 | [`website/`](./website)             | Website     | Main    |
 | [`jellyfin/`](./jellyfin)           | Jellyfin    | Main    |
 | [`jellyseerr/`](./jellyseerr)       | Jellyseerr  | Main    |
