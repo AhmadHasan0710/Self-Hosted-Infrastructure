@@ -11,31 +11,8 @@ actively managed,monitored, and secured.
 - **VPN / private mesh:** Tailscale, used for direct private access to internal
   services/machines outside of what's exposed publicly (For instance QBittorrent, which isn't exposed publicly due to being only for administrative usage).
 
-## General Network Infrastructure
+![General Infrastructure Overview](./GeneralNetworkInfrastructure.png)
 
-```
-                         ┌────────────────────┐
- Internet Traffic  ───▶  │      Cloudflare     │  (DNS + Proxy + WAF)
-                         └─────────┬───────────┘
-                                   │
-                         ┌─────────▼───────────┐
-                         │  Cloudflare Tunnel    │  (cloudflared daemon)
-                         └─────────┬───────────┘
-                    ┌──────────────┼──────────────────┐
-                    ▼                                  ▼
-          ┌─────────────────┐                ┌──────────────────┐
-          │   Main Machine   │                │   Worker Machine  │
-          │ ───────────────  │                │ ────────────────  │
-          │ Website (root dom)│                │ Prowlarr          │
-          │ Jellyfin          │                │ Sonarr            │
-          │ Jellyseerr        │                │ Radarr            │
-          │ Nextcloud         │                │ qBittorrent        │
-          │ Uptime Kuma       │                │ (Tailscale only —  │
-          └─────────────────┘                │  not on the tunnel)│
-                                              └──────────────────┘
-
-          Tailscale mesh overlays both machines for private/internal-only access
-```
 See `/diagrams` for the full detailed diagram
 
 ## Folder Structure
