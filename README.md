@@ -11,33 +11,35 @@ actively managed,monitored, and secured.
 - **VPN / private mesh:** Tailscale, used for direct private access to internal
   services/machines outside of what's exposed publicly (For instance QBittorrent, which isn't exposed publicly due to being only for administrative usage).
 
+## General Network Infrastructure
+
 ![General Infrastructure Overview](./GeneralNetworkInfrastructure.png)
 
 See `/diagrams` for the full detailed diagram
 
 ## Folder Structure
 
-| Folder            | Purpose |
+Folder & Purposes
 
-| `configurations/` | Per-service configuration files/templates (redacted of secrets) |
-| `diagrams/`       | Architecture diagrams (network flow, service map, tunnel routing) |
-| `documentation/`  | Step-by-step setup, configuration, and maintenance procedures |
-| `screenshots/`    | Visual proof of working services, dashboards, and monitoring |
+- **`configurations/`** — Per-service configuration files/templates (redacted of secrets)
+- **`diagrams/`** — Architecture diagrams (network flow, service map, tunnel routing)
+- **`documentation/`** — Step-by-step setup, configuration, and maintenance procedures
+- **`screenshots/`** — Visual proof of working services, dashboards, and monitoring
 
 ## Services Hosted
 
-| Service     | Machine | Purpose |
-
-| Website     | Main    | Personal/portfolio site on the root domain |
-| Jellyfin    | Main    | Self-hosted media streaming server |
-| Jellyseerr  | Main    | Media request/management front-end for Jellyfin |
-| Nextcloud   | Main    | Private cloud storage/file sync |
-| Uptime Kuma | Main    | Uptime/status monitoring for all services |
-| Prowlarr    | Worker  | Indexer manager for media automation setup |
-| Sonarr      | Worker  | TV show automation/management |
-| Radarr      | Worker  | Movie automation/management |
-| qBittorrent | Worker  | Download client for the automation setup |
-| Tailscale   | Both    | Private VPN mesh for internal only access |
+| Service     | Machine | Purpose                                          
+|-------------|---------|---------------------------------------------------
+| Website     | Main    | Personal/portfolio site on the root domain        
+| Jellyfin    | Main    | Self-hosted media streaming server                
+| Jellyseerr  | Main    | Media request/management front-end for Jellyfin   
+| Nextcloud   | Main    | Private cloud storage/file sync                   
+| Uptime Kuma | Main    | Uptime/status monitoring for all services          
+| Prowlarr    | Worker  | Indexer manager for media automation setup         
+| Sonarr      | Worker  | TV show automation/management                      
+| Radarr      | Worker  | Movie automation/management                        
+| qBittorrent | Worker  | Download client for the automation setup           
+| Tailscale   | Both    | Private VPN mesh for internal only access    
 
 ## Security Notes
 
