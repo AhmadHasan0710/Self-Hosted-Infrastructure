@@ -1,4 +1,4 @@
-# Self-Hosted Infrastructure
+# Self-Hosted Infrastructurexaz
 
 This project documents a self hosted homelab environment used as a real world
 demonstration of networking, cloud, and security engineering skills. Rather then a typical tutorial, it's more of a living environment; that's 
@@ -21,10 +21,10 @@ See `/diagrams` for the full detailed diagram
 
 Folder & Purposes
 
-- **`configurations/`** — Per-service configuration files/templates (redacted of secrets)
-- **`diagrams/`** — Architecture diagrams (network flow, service map, tunnel routing)
-- **`documentation/`** — Step-by-step setup, configuration, and maintenance procedures
-- **`screenshots/`** — Visual proof of working services, dashboards, and monitoring
+- **[`configurations/`](./configurations)** — Per-service configuration files/templates (redacted of secrets)
+- **[`diagrams/`](./diagrams)** — Architecture diagrams (network flow, service map, tunnel routing)
+- **[`documentation/`](./documentation)** — Step-by-step setup, configuration, and maintenance procedures
+- **[`screenshots/`](./screenshots)** — Visual proof of working services, dashboards, and monitoring
 
 ## Services Hosted
 

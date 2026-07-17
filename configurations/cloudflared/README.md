@@ -19,4 +19,4 @@ automatically; no manual DNS management per service.
 
 ## Related documentation
 
-See `documentation/02-cloudflare-tunnel-setup.md` for the full step-by-step.
+See [`02-cloudflare-tunnel-setup.md`](../documentation/02-cloudflare-tunnel-setup.md) for the full step-by-step.
