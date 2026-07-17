@@ -1,4 +1,4 @@
-# Self-Hosted Infrastructure Portfolio
+# Self-Hosted Infrastructure
 
 This project documents a self hosted homelab environment used as a real world
 demonstration of networking, cloud, and security engineering skills. Rather then a typical tutorial, it's more of a living environment; that's 
