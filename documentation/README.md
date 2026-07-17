@@ -14,4 +14,4 @@ setup.
 | [`03-service-deployment.md`](./03-service-deployment.md)                     | Deploying each service via Docker on the main and worker machines                 |
 | [`04-tailscale-setup.md`](./04-tailscale-setup.md)                           | Setting up the private VPN mesh between the main and worker machines              |
 | [`05-maintenance-and-monitoring.md`](./05-maintenance-and-monitoring.md)     | Ongoing maintenance routine, backups, and Uptime Kuma monitoring configuration     |
-| [`06-security-hardening.md`](./06-security-hardening.md)                     | Access control, Cloudflare WAF rules, secrets handling, and patching cadence       |
+| [`06-security-hardening.md`](./06-security-hardening.md)                     | Access control, Cloudflare Access Policies, secrets handling, and etc.     |
