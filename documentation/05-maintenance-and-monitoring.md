@@ -2,47 +2,60 @@
 
 ## Purpose
 
-Describes the ongoing routine used to keep the environment healthy: monitoring,
-backups, and update cadence — the operational side that separates a one-time setup
-from a real, maintained production-style environment.
+This document describes the ongoing routine used to keep the environment
+healthy: monitoring, backups, and update cadence. This is the operational side
+that separates a one time setup from a real, maintained environment.
+
 
 ## Monitoring
 
-- **Uptime Kuma** is the primary monitoring tool, running on the main machine
-  - A monitor is configured for every public-facing service (hitting the public
-    hostname, confirming the tunnel + service + Cloudflare path all work end-to-end)
-  - Notification channel configured (e.g. Discord/email webhook) so downtime alerts
-    arrive without needing to check the dashboard manually
-- **cloudflared** logs are checked periodically for tunnel connection stability
-- Cloudflare's dashboard analytics reviewed for traffic anomalies (sudden spikes,
-  unexpected countries/IPs hitting Access-protected services)
+**Uptime Kuma** is the primary monitoring tool and runs on the main machine.
+A monitor is configured for every service, checking either the service's
+local IP address or the worker machine's IP address depending on where that
+service lives, and for public facing services the public hostname is checked
+as well, confirming the tunnel, the service, and Cloudflare are all working
+end to end together.
+
+Uptime Kuma sends notifications through its own **SMTP server connection**,
+emailing an alert as soon as any monitored service goes down or comes back
+up, so downtime is caught without needing to check the dashboard manually.
+
+`cloudflared` logs are checked periodically for tunnel connection stability,
+and Cloudflare's dashboard analytics are reviewed for traffic anomalies, such
+as sudden spikes or unexpected countries and IPs hitting Access protected
+services.
+
 
 ## Backups
 
-- **Nextcloud** data volume and database backed up on a scheduled job, stored
-  separately from the host itself
-- **Config volumes** for Jellyfin/Jellyseerr/Sonarr/Radarr/Prowlarr backed up
-  periodically so service state (libraries, indexers, settings) isn't lost on
-  container rebuild
-- Backups tested periodically by restoring into a scratch environment — an untested
-  backup is treated as not actually a backup
+**Nextcloud's** data volume and database are backed up on a scheduled job,
+stored separately from the host itself. **Config volumes** for Jellyfin,
+Jellyseerr, Sonarr, Radarr, and Prowlarr are backed up periodically as well,
+so service state such as libraries, indexers, and settings isn't lost if a
+container needs to be rebuilt.
+
+Backups are tested periodically by restoring them into a scratch environment.
+An untested backup is treated as not actually being a backup at all.
+
 
 ## Update Cadence
 
-- Docker images updated on a regular schedule rather than immediately on release, to
-  avoid breaking changes taking down a service unexpectedly
-- `cloudflared` and Tailscale clients kept current since they're the security-critical
-  connective tissue of the whole setup
-- Host OS patched on a regular schedule (security updates applied promptly, feature
-  updates on a slower cadence)
+Docker images are updated on a regular schedule rather than immediately on
+release, to avoid a breaking change taking a service down unexpectedly.
+`cloudflared` and the Tailscale clients are kept current since they're the
+security critical connective tissue of the whole setup, covered further in
+[`06-security-hardening.md`](./06-security-hardening.md). The host OS is
+patched on a regular schedule, with security updates applied promptly and
+feature updates on a slower cadence.
+
 
 ## Routine Checklist (example cadence)
 
 | Task | Frequency |
 |---|---|
 | Check Uptime Kuma dashboard | Daily (passive, via alerts) |
-| Review Cloudflare traffic/analytics | Weekly |
+| Review Cloudflare traffic and analytics | Weekly |
 | Update container images | Bi-weekly / monthly |
 | Test a backup restore | Monthly |
 | Review Tailscale ACLs and connected devices | Monthly |
-| Full security review (see doc 06) | Quarterly |
+| Full security review, see [`06-security-hardening.md`](./06-security-hardening.md) | Quarterly |

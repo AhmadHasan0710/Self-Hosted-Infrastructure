@@ -2,76 +2,123 @@
 
 ## Purpose
 
-Covers how each hosted service was deployed on the main machine and the worker
-machine, and how each one is wired into the Cloudflare Tunnel.
+This document covers how each service was deployed, how it runs locally on its
+own machine, and how the services meant to be public are wired into the
+Cloudflare Tunnel through the ingress file.
+
 
 ## Prerequisites
 
-- Cloudflare Tunnel running (see doc 02)
-- Docker + Docker Compose installed on both the main machine and the worker machine
-  (all services in this setup run as containers for consistency and easy backups)
+- **Cloudflare Tunnel** running, see [`02-cloudflare-tunnel-setup.md`](./02-cloudflare-tunnel-setup.md)
+- **Docker and Docker Compose** installed on both the main machine and the
+  worker machine; every self-hosted service in this setup runs as a container
+  for consistency and easy backups
+
 
 ## Machine Layout
 
 | Machine | Services |
 |---|---|
-| Main | Website, Jellyfin, Jellyseerr, Nextcloud, Uptime Kuma |
+| Main | Jellyfin, Jellyseerr, Nextcloud, Uptime Kuma |
 | Worker | Prowlarr, Sonarr, Radarr, qBittorrent |
 
-## Step-by-Step (general pattern used for every service)
+The personal/portfolio site is not part of this Docker layout at all. It's
+deployed on **Vercel** rather than self-hosted, with `example.com` pointed at
+Vercel through a standard Cloudflare DNS record, with the ingress rule setup as a backup;
+in any instance Vercel goes down.
 
-1. **Define the service in Docker Compose**
-   - Each service gets its own compose file (or a section in a shared one) with a
-     pinned image version, persistent volume mapping, and an internal port
-2. **Bind to localhost / internal network only**
-   - No service ports are published to the public interface — everything is only
-     reachable via the internal Docker network or localhost, which the tunnel then
-     reaches over its outbound connection
-3. **Add an ingress rule in `cloudflared`'s config**
-   - Maps `service.example.com` -> `http://localhost:<port>`
-4. **Run `route dns` for the new hostname**
-   - Creates the DNS record automatically (see doc 02)
-5. **Apply service-specific hardening**
-   - Reverse proxy headers, auth requirements, and any Cloudflare Access policies
-     per service (see doc 06 and each service's config README)
+
+
+## General Deployment Pattern
+
+Every self-hosted service follows the same base pattern:
+
+1. **Defined in Docker Compose** — with a pinned image version, persistent
+   volume mapping, and an internal port.
+2. **Bound internally only** — no service publishes a port to the public
+   interface. Everything is only reachable over the internal Docker network or
+   localhost, which the tunnel then reaches over its own outbound connection.
+3. **Given an ingress rule** — services meant to be public get a matching
+   ingress rule in `cloudflared`'s config, mapping their hostname to
+   `http://localhost:<port>`.
+4. **Registered with `route dns`** — creating the DNS record automatically, as
+   covered in [`02-cloudflare-tunnel-setup.md`](./02-cloudflare-tunnel-setup.md).
+5. **Hardened where needed** — including Access policies for select
+   applications, covered in [`06-security-hardening.md`](./06-security-hardening.md).
+
 
 ## Per-Service Notes
 
-- **Website** — static site (or lightweight app) served on the root/main domain
-- **Jellyfin** — media server; hardware transcoding passthrough configured if
-  applicable; library folders mounted read-only where possible
-- **Jellyseerr** — connected to Jellyfin as its backing media server; used purely as
-  a request/management front end
-- **Nextcloud** — paired with a database container; storage volume backed up
-  separately (see doc 05)
-- **Uptime Kuma** — configured with a monitor for every other service (public
-  hostname + internal port), used as the single pane of glass for uptime status
-- **Prowlarr / Sonarr / Radarr** — run together on the worker machine, networked so
-  Prowlarr can push indexers to Sonarr/Radarr internally; only their web UIs are
-  exposed through the tunnel, not any download traffic
-- **qBittorrent** — the actual download client Sonarr/Radarr hand grabs off to; runs
-  on the worker machine but is **deliberately not routed through the Cloudflare
-  Tunnel at all** — no public hostname, no Access policy, nothing. It's reachable
-  only over Tailscale or from `localhost` on the worker machine. This is a
-  conscious security tradeoff, not an inconsistency: a torrent client's web UI is a
-  much higher-value target than the rest of the stack, so it gets no public attack
-  surface whatsoever
+- **Jellyfin** — runs on the main machine as the media server for the whole
+  setup, with library folders mounted so both it and the automation stack can
+  reach the same files.
+
+- **Jellyseerr** — runs on the main machine and connects to Sonarr and Radarr
+  by IP address rather than container name, since those two services live on
+  the worker machine rather than the same host.
+
+- **Nextcloud** — runs on the main machine alongside its own database
+  container, using standard, well documented configuration for private file
+  storage and sync.
+
+- **Uptime Kuma** — runs on the main machine and monitors every other service
+  by either its local IP address or the IP address of the worker machine,
+  depending on where that service lives. It sends notifications through its
+  own SMTP server connection, emailing an alert whenever a monitored service
+  goes down or comes back up. Expanded on in
+  [`05-maintenance-and-monitoring.md`](./05-maintenance-and-monitoring.md).
+
+- **Prowlarr** — runs on the worker machine and uses an indexer proxy to reach
+  certain torrent sites, then pushes those indexers down to Sonarr and Radarr
+  so they can search across the same sources.
+
+- **Sonarr and Radarr** — run on the worker machine and are connected to the
+  main machine's NFS file share, which gives them access to Jellyfin's movie
+  and show library folders so completed downloads land exactly where Jellyfin
+  expects them.
+
+- **qBittorrent** — runs on the worker machine and is the client Sonarr and
+  Radarr hand completed matches off to. A few specific settings were tuned
+  here to keep the connection reliable and fast: torrents are limited to
+  downloading one at a time instead of all at once, the client is port
+  forwarded manually through the router instead of relying on default
+  settings, and only specific file types are allowed through so bandwidth
+  isn't wasted on unwanted files. qBittorrent is also, deliberately, **not**
+  routed through the Cloudflare Tunnel at all. It has no public hostname and
+  no Access policy; it's reachable only over Tailscale or from localhost on
+  the worker machine, covered further in [`04-tailscale-setup.md`](./04-tailscale-setup.md)
+  and [`06-security-hardening.md`](./06-security-hardening.md).
+
+Every service that is exposed publicly sits behind Cloudflare, which not only
+hosts the traffic but also runs Zero Trust in front of select applications so
+only authenticated users can reach them. The remaining services not called out
+above run on their documented default configuration without any notable
+customization.
+
 
 ## Verification
 
-- Each subdomain loads the correct service from outside the local network
-- Uptime Kuma shows all monitors green
-- Inter-service integrations (Jellyseerr <-> Jellyfin, Prowlarr <-> Sonarr/Radarr)
-  tested end-to-end after deployment
+- **Each subdomain** loads the correct service from outside the local network
+- **Uptime Kuma** shows every monitor green
+- **Cross-service integrations**, such as Jellyseerr to Jellyfin and Prowlarr
+  to Sonarr/Radarr, were tested end to end after deployment
+
+---
 
 ## Maintenance
 
-- Image updates applied on a regular cadence (see doc 05)
-- Compose files and `.env` files backed up (secrets excluded from any public repo)
+- Image updates are applied on a regular cadence, covered in
+  [`05-maintenance-and-monitoring.md`](./05-maintenance-and-monitoring.md)
+- Compose files and `.env` files are backed up, with secrets excluded from any
+  public repo
+
 
 ## Troubleshooting
 
-- **Service unreachable via subdomain but works on localhost:** check the ingress
-  rule hostname/port match and that `cloudflared` was restarted after config changes
-- **Inter-service integration fails:** confirm both containers are on the same
-  Docker network and referencing each other by container name, not `localhost`
+- **Service unreachable via subdomain but works on localhost** — check that
+  the ingress rule's hostname and port match, and that `cloudflared` was
+  restarted after the config change.
+- **Cross-service integration fails** — confirm both services are referencing
+  each other by the correct IP address or container name depending on whether
+  they're on the same machine, and that any required network path (like the
+  NFS share) is actually reachable.

@@ -2,53 +2,80 @@
 
 ## Purpose
 
-Documents how the domain was purchased through Hostinger and migrated over to
-Cloudflare for DNS management, WAF, and proxying — while keeping registration
-itself with Hostinger.
+This document covers the first stage of the project: getting a domain purchased
+and DNS pointed at Cloudflare so every later step (the tunnel, the services, and
+the security layers) has a stable foundation to build on.
+
+The domain could have been purchased directly through Cloudflare's registrar,
+but Hostinger was offering a better deal at the time, so the domain was
+purchased there instead. Rather than transferring the registration itself, the
+domain was migrated over to Cloudflare purely for DNS management by updating
+the nameservers, while registration stayed with Hostinger.
+
+This was done using a **free Cloudflare account**, which is enough to cover
+this setup entirely. The free tier includes DNS management, proxying, and the
+security features used throughout this project, along with Cloudflare Access
+support for up to fifty authenticated users, more than enough for a personal
+environment like this one.
+
+
 
 ## Prerequisites
 
-- Domain purchased through Hostinger (or any registrar)
-- Free Cloudflare account
+- **Domain** purchased through Hostinger (or any registrar)
+- **Free Cloudflare account**
+
+
 
 ## Step-by-Step
 
-1. **Add the site to Cloudflare**
-   - In the Cloudflare dashboard: Add a Site -> enter the domain -> select plan (Free is sufficient)
-   - Cloudflare scans existing DNS records automatically and imports what it finds
+1. **Add the site to Cloudflare** — In the Cloudflare dashboard, choose Add a
+   Site, enter the domain, and select the Free plan. Cloudflare scans for
+   existing DNS records automatically and imports whatever it finds.
 
-2. **Review imported DNS records**
-   - Confirm A/CNAME records match what's expected (root domain, `www`, any existing subdomains)
-   - Remove any stale/unused records from the old host
+2. **Review the imported DNS records** — Confirm the A and CNAME records match
+   what's expected, including the root domain, `www`, and any existing
+   subdomains, then remove anything stale left over from the previous host.
 
-3. **Update nameservers at the registrar**
-   - In Hostinger's domain management panel, replace the default nameservers with the
-     two Cloudflare-assigned nameservers
-   - Registration stays with Hostinger; DNS resolution authority moves to Cloudflare
+3. **Update the nameservers at Hostinger** — In Hostinger's domain management
+   panel, the default nameservers were replaced with the two nameservers
+   Cloudflare assigned. Registration remains with Hostinger, but DNS
+   resolution authority moves fully to Cloudflare.
 
-4. **Wait for propagation**
-   - Cloudflare will show "Active" once it detects the nameserver change
-     (typically anywhere from a few minutes to 24 hours)
+4. **Wait for propagation** — Cloudflare marks the zone as Active once it
+   detects the nameserver change, which can take anywhere from a few minutes
+   to about 24 hours.
 
-5. **Set default proxy behavior**
-   - Root domain and subdomains that will be tunnel-routed are set to "Proxied" (orange cloud)
-   - This hides the origin IP and lets Cloudflare's edge (WAF, caching, TLS) sit in front
+5. **Set the default proxy behavior** — The root domain and any subdomain
+   that would later be routed through the tunnel are set to Proxied (the
+   orange cloud icon). This keeps the origin IP hidden and puts Cloudflare's
+   edge, including the WAF and TLS termination, in front of everything.
+
+
 
 ## Verification
 
-- `dig NS yourdomain.com` should return Cloudflare nameservers
-- Cloudflare dashboard shows the zone status as **Active**
-- SSL/TLS mode set to **Full (strict)** once origin certs are in place (see doc 06)
+- **`dig NS yourdomain.com`** returns Cloudflare's nameservers
+- **Cloudflare dashboard** shows the zone status as Active
+- **SSL/TLS mode** is set to Full (strict) once origin certificates are in
+  place, see [`06-security-hardening.md`](./06-security-hardening.md)
+
+
 
 ## Maintenance
 
-- Revisit DNS records any time a new service/subdomain is added (in this setup, most
-  of this is automated by the Cloudflare Tunnel — see doc 02)
-- Periodically audit DNS records for anything stale or unused
+- DNS records are revisited any time a new service or subdomain is added,
+  though in this setup most of that is automated once the Cloudflare Tunnel is
+  in place, see [`02-cloudflare-tunnel-setup.md`](./02-cloudflare-tunnel-setup.md)
+- DNS records are periodically audited for anything stale or unused
+
+
 
 ## Troubleshooting
 
-- **Site stuck on "Pending Nameserver Update":** double-check the exact nameserver
-  values were entered at the registrar with no typos, and that old NS records were fully replaced, not appended
-- **SSL errors after migration:** make sure the encryption mode isn't set to
-  "Flexible" if the origin doesn't accept plain HTTP — use Full/Full (strict)
+- **Site stuck on Pending Nameserver Update** — double check the exact
+  nameserver values were entered at the registrar with no typos, and that the
+  old nameservers were fully replaced rather than appended to.
+- **SSL errors after migration** — make sure the encryption mode isn't set to
+  Flexible if the origin doesn't accept plain HTTP; use Full or Full (strict)
+  instead.

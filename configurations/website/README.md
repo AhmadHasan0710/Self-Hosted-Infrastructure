@@ -6,6 +6,7 @@ Personal/portfolio site served on the root domain (`example.com`). This is a gen
 
 ## How it's exposed
 
+- Hosted through Vercel instead of cloudflared automatically
 - Routed through Cloudflare Tunnel on the root hostname (no subdomain)
 - Fully public — no Cloudflare Access policy applied, since it's meant to be
   viewed by anyone
