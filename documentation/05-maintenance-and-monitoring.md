@@ -46,7 +46,7 @@ patched on a regular schedule, with security updates applied promptly and
 feature updates on a slower cadence.
 
 
-## Routine Checklist (example cadence)
+## Routine Checklist
 
 | Task | Frequency |
 |---|---|
