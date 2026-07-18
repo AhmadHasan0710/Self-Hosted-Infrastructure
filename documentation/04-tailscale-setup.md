@@ -73,5 +73,4 @@ any router configuration on the network those devices are physically on.
 - **Device shows in the tailnet but is unreachable** — check that ACL rules
   aren't unintentionally blocking it, and that the Tailscale service is
   actually running on that device.
-- **MagicDNS not resolving** — confirm it's enabled at the tailnet level in
-  the admin console, not just on the individual device.
+- **Devices not accepting advertised Node** — Occasionally certain devices wouldn't accept the advertised node that was being broadcasted.
