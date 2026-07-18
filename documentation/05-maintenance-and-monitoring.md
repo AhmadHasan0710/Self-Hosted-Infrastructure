@@ -34,9 +34,6 @@ Jellyseerr, Sonarr, Radarr, and Prowlarr are backed up periodically as well,
 so service state such as libraries, indexers, and settings isn't lost if a
 container needs to be rebuilt.
 
-Backups are tested periodically by restoring them into a scratch environment.
-An untested backup is treated as not actually being a backup at all.
-
 
 ## Update Cadence
 
