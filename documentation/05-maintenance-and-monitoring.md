@@ -1,6 +1,6 @@
-# 05 — Maintenance & Monitoring
+# Maintenance & Monitoring
 
-## Purpose
+## Overall
 
 This document describes the ongoing routine used to keep the environment
 healthy: monitoring, backups, and update cadence. This is the operational side
