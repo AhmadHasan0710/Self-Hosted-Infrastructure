@@ -1,6 +1,6 @@
-# 03 — Service Deployment
+# Service Deployment
 
-## Purpose
+## Overall
 
 This document covers how each service was deployed, how it runs locally on its
 own machine, and how the services meant to be public are wired into the
