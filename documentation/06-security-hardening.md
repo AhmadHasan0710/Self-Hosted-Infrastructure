@@ -67,8 +67,7 @@ rather than just getting everything working.
 
 - WAF and Access rules are reviewed quarterly for anything overly permissive
   or stale
-- Long lived tokens, including Cloudflare API tokens and tunnel credentials,
-  are rotated periodically
+- Services are routinely monitored/checked upon to ensure they're running properly 
 - Tailscale ACLs are reviewed alongside Cloudflare Access policies to make
   sure the two layers stay consistent with each other as services are added
   or removed
