@@ -1,6 +1,6 @@
 # 02 — Cloudflare Tunnel Setup (cloudflared)
 
-## Purpose
+## Overall
 
 This document covers creating the Cloudflare Tunnel and connecting every locally
 hosted service to it, so each service is securely reachable on the public domain
