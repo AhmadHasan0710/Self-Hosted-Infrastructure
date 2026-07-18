@@ -95,3 +95,11 @@ harden the traffic that does reach the tunnel:
 - **Tunnel shows disconnected** — check outbound connectivity from the host,
   since the tunnel is outbound only, this is usually a local network or
   firewall issue rather than something on Cloudflare's side.
+- **Route/DNS record never got created** — double-check that the hostname
+  used in the `cloudflared tunnel route dns <tunnel-name> <hostname>` command
+  exactly matches the hostname defined in the ingress rule for that service.
+  If the two don't match, or the command was skipped/mistyped for a given
+  service, Cloudflare won't automatically create the DNS record or route, and
+  that subdomain will fail to resolve. Re-run `route dns` for any service
+  whose hostname was entered incorrectly, then confirm with `dig` that the
+  CNAME now points at `<tunnel-id>.cfargotunnel.com`.
