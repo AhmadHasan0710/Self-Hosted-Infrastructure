@@ -71,12 +71,3 @@ rather than just getting everything working.
 - Tailscale ACLs are reviewed alongside Cloudflare Access policies to make
   sure the two layers stay consistent with each other as services are added
   or removed
-
-
-## What NOT to Include in This Repo
-
-- The real domain name tied to personal identity, replaced with a placeholder
-  wherever a concrete example is needed
-- Tunnel IDs, zone IDs, API tokens, or credentials files
-- Internal IP ranges or real hostnames
-- Anything that would let someone map out exactly what's running where
