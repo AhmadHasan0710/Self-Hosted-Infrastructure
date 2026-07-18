@@ -88,7 +88,7 @@ Every self-hosted service follows the same base pattern:
   - Only specific file types are allowed through so bandwidth isn't wasted
     on unwanted files
 
-  qBittorrent is also, deliberately, **not** routed through the Cloudflare
+  qBittorrent, alongside all other services maintained on the worker server, are deliberately, **not** routed through the Cloudflare
   Tunnel at all:
   - No public hostname and no Access policy
   - Reachable only over Tailscale or from localhost on the worker machine
