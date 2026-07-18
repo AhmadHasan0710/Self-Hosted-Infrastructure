@@ -1,6 +1,6 @@
-# 04 — Tailscale Private VPN Setup
+# Tailscale Private VPN Setup
 
-## Purpose
+## Overall
 
 This document covers setting up Tailscale as a private mesh network for
 internal only access, reaching services that aren't and shouldn't be exposed
