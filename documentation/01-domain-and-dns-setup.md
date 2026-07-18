@@ -1,6 +1,6 @@
 # 01 — Domain Purchase & DNS Migration to Cloudflare
 
-## Purpose
+## Overall
 
 This document covers the first stage of the project: getting a domain purchased
 and DNS pointed at Cloudflare so every later step (the tunnel, the services, and
