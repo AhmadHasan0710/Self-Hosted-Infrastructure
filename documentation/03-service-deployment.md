@@ -36,7 +36,7 @@ Every self-hosted service follows the same base pattern:
 1. **Defined in Docker Compose** — with a pinned image version, persistent
    volume mapping, and an internal port.
 2. **Bound internally only** — no service publishes a port to the public
-   interface. Everything is only reachable over the internal Docker network or
+   interface. Everything is only reachable over the VPN or
    localhost, which the tunnel then reaches over its own outbound connection.
 3. **Given an ingress rule** — services meant to be public get a matching
    ingress rule in `cloudflared`'s config, mapping their hostname to
