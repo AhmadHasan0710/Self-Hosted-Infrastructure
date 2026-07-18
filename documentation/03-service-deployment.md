@@ -78,16 +78,22 @@ Every self-hosted service follows the same base pattern:
   expects them.
 
 - **qBittorrent** — runs on the worker machine and is the client Sonarr and
-  Radarr hand completed matches off to. A few specific settings were tuned
-  here to keep the connection reliable and fast: torrents are limited to
-  downloading one at a time instead of all at once, the client is port
-  forwarded manually through the router instead of relying on default
-  settings, and only specific file types are allowed through so bandwidth
-  isn't wasted on unwanted files. qBittorrent is also, deliberately, **not**
-  routed through the Cloudflare Tunnel at all. It has no public hostname and
-  no Access policy; it's reachable only over Tailscale or from localhost on
-  the worker machine, covered further in [`04-tailscale-setup.md`](./04-tailscale-setup.md)
-  and [`06-security-hardening.md`](./06-security-hardening.md).
+  Radarr hand completed matches off to.
+
+  A few specific settings were tuned here to keep the connection reliable
+  and fast:
+  - Torrents are limited to downloading one at a time instead of all at once
+  - The client is port forwarded manually through the router instead of
+    relying on default settings
+  - Only specific file types are allowed through so bandwidth isn't wasted
+    on unwanted files
+
+  qBittorrent is also, deliberately, **not** routed through the Cloudflare
+  Tunnel at all:
+  - No public hostname and no Access policy
+  - Reachable only over Tailscale or from localhost on the worker machine
+  - Covered further in [`04-tailscale-setup.md`](./04-tailscale-setup.md)
+    and [`06-security-hardening.md`](./06-security-hardening.md)
 
 Every service that is exposed publicly sits behind Cloudflare, which not only
 hosts the traffic but also runs Zero Trust in front of select applications so
