@@ -1,6 +1,6 @@
-# 06 — Security Hardening
+# Security Hardening
 
-## Purpose
+## Overall
 
 This document covers the security controls layered on top of the base setup.
 This is the part that most directly demonstrates security engineering skill,
