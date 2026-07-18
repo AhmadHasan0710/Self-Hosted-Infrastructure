@@ -39,7 +39,7 @@ Folder & Purposes
 | Sonarr      | Worker  | TV show automation/management                      
 | Radarr      | Worker  | Movie automation/management                        
 | qBittorrent | Worker  | Download client for the automation setup           
-| Tailscale   | Both    | Private VPN mesh for internal only access    
+| Tailscale   | Main    | Private VPN mesh for internal only access    
 
 ## Security Notes
 
