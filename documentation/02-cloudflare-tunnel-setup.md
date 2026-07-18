@@ -32,7 +32,7 @@ without ever opening an inbound port on the server itself.
    the local service behind it, for example `jellyfin.example.com` to
    `http://localhost:8096`. This ingress file is what connects every locally
    running service to the public domain. See
-   [`configurations/cloudflared/cloudflared-config.md`](../configurations/cloudflared/cloudflared-config.xml)
+   [`configurations/cloudflared/cloudflared-config.xml`](../configurations/cloudflared/cloudflared-config.xml)
    for the redacted template.
 
 5. **Enable automatic DNS record creation** — Running
