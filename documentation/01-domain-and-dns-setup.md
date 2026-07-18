@@ -1,4 +1,4 @@
-# 01 — Domain Purchase & DNS Migration to Cloudflare
+# Domain Purchase & DNS Migration to Cloudflare
 
 ## Overall
 
