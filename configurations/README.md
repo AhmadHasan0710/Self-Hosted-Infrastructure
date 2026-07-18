@@ -5,7 +5,7 @@ This folder holds a subfolder per service, each containing:
 - A `README.md` explaining what the service is used for, how it's wired into the
   Cloudflare Tunnel, and any service-specific notes
 - Redacted/template config files (`-config`) showing the real structure used,
-  with secrets, tokens, IDs, and internal hostnames stripped out
+  with secrets, tokens, IDs, and internal hostnames
 
 ## Services
 
