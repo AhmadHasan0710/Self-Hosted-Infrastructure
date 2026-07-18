@@ -43,12 +43,11 @@ without ever opening an inbound port on the server itself.
    and the public route exist automatically.
 
 6. **Run cloudflared as a persistent service** — `cloudflared service install`
-   keeps the tunnel running and restarts it with the machine. The same process
-   is repeated on the worker machine for its services (Prowlarr, Sonarr,
-   Radarr). qBittorrent also runs on the worker machine but intentionally has
-   no ingress rule at all; it's excluded from the tunnel on purpose, see
+   keeps the tunnel running and restarts it with the machine. The same process, however;
+   isn't repeated on the worker machine for its services (Prowlarr, Sonarr,
+   Radarr, & Qbittorernt), as they're excluded from the tunnel intentionally. See
    [`06-security-hardening.md`](./06-security-hardening.md) and
-   [`configurations/qbittorrent/README.md`](../configurations/qbittorrent/README.md).
+   [`configurations/qbittorrent/README.md`](../configurations/qbittorrent/README.md). For more details as to why.
 
 
 ## Security Hardening Applied at the Tunnel Layer
