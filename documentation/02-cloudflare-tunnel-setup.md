@@ -1,4 +1,4 @@
-# 02 — Cloudflare Tunnel Setup (cloudflared)
+# Cloudflare Tunnel Setup (cloudflared)
 
 ## Overall
 
