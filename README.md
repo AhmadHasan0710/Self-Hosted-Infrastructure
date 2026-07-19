@@ -50,3 +50,15 @@ Folder & Purposes
   Uptime Kuma dashboard) behind additional authentication.
 - All configuration files in this repo are **redacted templates** — real domains,
   tokens, tunnel IDs, and credentials are never shown.
+
+## Content & Legal Note
+
+The media automation stack in this lab (Prowlarr, Sonarr, Radarr, and
+qBittorrent) is configured to index and download exclusively from public
+domain archives and legally distributable sources — content that is either
+out of copyright, openly licensed, or explicitly made available for free
+download and redistribution by its rights holder. No copyrighted or otherwise
+restricted material is indexed, downloaded, or stored anywhere in this
+environment. This stack exists purely to demonstrate the automation,
+networking, and security architecture involved in a media pipeline, not to
+facilitate access to copyrighted content.
