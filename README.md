@@ -60,5 +60,5 @@ out of copyright, openly licensed, or explicitly made available for free
 download and redistribution by its rights holder. No copyrighted or otherwise
 restricted material is indexed, downloaded, or stored anywhere in this
 environment. This stack exists purely to demonstrate the automation,
-networking, and security architecture involved in a media pipeline, not to
-facilitate access to copyrighted content.
+networking, and security architecture; not to
+demostrate access to copyrighted content.
